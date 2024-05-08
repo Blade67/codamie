@@ -112,7 +112,7 @@
 	</button>
 	<div
 		class="absolute left-0 top-full -z-10 w-full bg-transparent px-5 transition-all duration-500 ease-in-out sm:hidden"
-		class:opacity-0={!mobileNavVisible}
+		class:hidden={!mobileNavVisible}
 	>
 		<button
 			on:click={() => (mobileNavVisible = !mobileNavVisible)}

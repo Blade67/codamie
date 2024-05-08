@@ -42,6 +42,38 @@
 	onMount(() => {
 		opacity = 0.075;
 	});
+
+	let dismissPercent = 0;
+	let popupVisible = false;
+
+	const count = () => {
+		dismissPercent = 0;
+		const maxCount = 100;
+		const totalTime = 3000;
+
+		const timer = setInterval(() => {
+			dismissPercent = Math.min(dismissPercent + 1, maxCount);
+
+			if (dismissPercent === maxCount) {
+				popupVisible = false;
+				clearInterval(timer);
+			}
+		}, totalTime / maxCount);
+
+		setTimeout(() => {
+			clearInterval(timer);
+		}, totalTime);
+	};
+
+	const copyPopup = () => {
+		navigator.clipboard.writeText('blade67');
+		popupVisible = true;
+		count();
+	};
+
+	const openInNewTab = (url: string) => {
+		window?.open(url, '_blank')?.focus();
+	};
 </script>
 
 <style>
@@ -97,6 +129,34 @@
 </style>
 
 <svelte:window on:resize={resize} />
+
+<div
+	class:opacity-0={!popupVisible}
+	class="fixed bottom-8 right-1/2 z-50 h-16 w-96 max-w-[80%] translate-x-1/2 border-2 border-white bg-black shadow-2xl shadow-white/10 transition-opacity duration-300"
+>
+	<span
+		class="absolute left-0 top-0 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rotate-45 border-2 bg-black"
+	></span>
+	<span
+		class="absolute right-0 top-0 h-3 w-3 -translate-y-1/2 translate-x-1/2 rotate-45 border-2 bg-black"
+	></span>
+	<span
+		class="absolute bottom-0 left-0 h-3 w-3 -translate-x-1/2 translate-y-1/2 rotate-45 border-2 bg-black"
+	></span>
+	<span
+		class="absolute bottom-0 right-0 h-3 w-3 translate-x-1/2 translate-y-1/2 rotate-45 border-2 bg-black"
+	></span>
+	<div class="relative flex h-full w-full items-center bg-transparent text-white">
+		<p
+			class="relative flex h-full w-full items-center justify-center text-pretty text-center text-lg leading-5"
+		>
+			Successfully copied Discord username
+			<span class="absolute bottom-0 -z-10 h-[6px] w-full bg-white/40"></span>
+			<span class="absolute bottom-0 -z-10 h-[6px] bg-white" style="width: {dismissPercent}%;"
+			></span>
+		</p>
+	</div>
+</div>
 
 <div class="mt-20 flex w-full flex-col items-center justify-center space-y-8 py-8 sm:mt-0">
 	<div class="relative flex h-auto w-full items-center justify-center" bind:this={logoContainer}>
@@ -336,13 +396,15 @@
 	<div class="flex flex-col items-end justify-center space-y-16">
 		<a
 			class="translate-x-1/5 aspect-square w-full cursor-pointer invert transition-transform duration-300 ease-in-out hover:scale-110"
-			href={''}
+			href={'https://twitter.com/Blade67470'}
+			on:click|preventDefault={() => openInNewTab('https://twitter.com/Blade67470')}
 		>
 			<img src="{icons.twitter.src}.svg" alt={icons.twitter.alt} />
 		</a>
 		<a
 			class="translate-x-1/5 aspect-square w-full cursor-pointer invert transition-transform duration-300 ease-in-out hover:scale-110"
-			href={''}
+			href={'https://github.com/Blade67'}
+			on:click|preventDefault={() => openInNewTab('https://github.com/Blade67')}
 		>
 			<img src="{icons.github.src}.svg" alt={icons.github.alt} />
 		</a>
@@ -356,13 +418,14 @@
 	<div class="flex flex-col items-start justify-center space-y-16">
 		<a
 			class="-translate-x-1/5 aspect-square w-full cursor-pointer invert transition-transform duration-300 ease-in-out hover:scale-110"
-			href={''}
+			href={'/contact'}
 		>
 			<img src="{icons.email.src}.svg" alt={icons.email.alt} />
 		</a>
 		<a
 			class="-translate-x-1/5 aspect-square w-full cursor-pointer invert transition-transform duration-300 ease-in-out hover:scale-110"
 			href={''}
+			on:click|preventDefault={() => copyPopup()}
 		>
 			<img src="{icons.discord.src}.svg" alt={icons.discord.alt} />
 		</a>
@@ -373,13 +436,15 @@
 	<div class="flex translate-y-8 flex-row justify-center space-x-12">
 		<a
 			class="aspect-square w-1/5 cursor-pointer invert transition-transform duration-300 ease-in-out hover:scale-110"
-			href={''}
+			href={'https://twitter.com/Blade67470'}
+			on:click|preventDefault={() => openInNewTab('https://twitter.com/Blade67470')}
 		>
 			<img src="{icons.twitter.src}.svg" alt={icons.twitter.alt} />
 		</a>
 		<a
 			class="aspect-square w-1/5 cursor-pointer invert transition-transform duration-300 ease-in-out hover:scale-110"
-			href={''}
+			href={'https://github.com/Blade67'}
+			on:click|preventDefault={() => openInNewTab('https://github.com/Blade67')}
 		>
 			<img src="{icons.github.src}.svg" alt={icons.github.alt} />
 		</a>
@@ -393,13 +458,14 @@
 	<div class="flex -translate-y-8 flex-row justify-center space-x-12">
 		<a
 			class="aspect-square w-1/5 cursor-pointer invert transition-transform duration-300 ease-in-out hover:scale-110"
-			href={''}
+			href={'/contact'}
 		>
 			<img src="{icons.email.src}.svg" alt={icons.email.alt} />
 		</a>
 		<a
 			class="aspect-square w-1/5 cursor-pointer invert transition-transform duration-300 ease-in-out hover:scale-110"
 			href={''}
+			on:click|preventDefault={() => copyPopup()}
 		>
 			<img src="{icons.discord.src}.svg" alt={icons.discord.alt} />
 		</a>
