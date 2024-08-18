@@ -3,4 +3,4 @@ export type Skill = {
     name: string;
     state: States;
     percentage: number;
-}
+};
